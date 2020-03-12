@@ -15,8 +15,8 @@ net = load_model('model-resnet50-final.h5')
 cls_list = ['true', 'false']
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-path1='C:/Users/sabri/Desktop/sample/true'
-path2='C:/Users/sabri/Desktop/sample/false'
+path1='C:/Users/sabri/Desktop/Mask-recognize/true'
+path2='C:/Users/sabri/Desktop/Mask-recognize/false'
 duration=300
 freq=400
 
@@ -49,7 +49,7 @@ while(True):
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
         cv2.imwrite(os.path.join(path1,f2), frame)
-        winsound.Beep(freq, duration)
+        #winsound.Beep(freq, duration)
     
     if pred[0] > 0.90:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
