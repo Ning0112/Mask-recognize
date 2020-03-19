@@ -12,7 +12,7 @@ cap = cv2.VideoCapture(0)
 # files = sys.argv[1:]
 
 net = load_model('model-resnet50-final.h5')
-cls_list = ['true', 'false']
+cls_list = ['false', 'true']
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 path1='C:/Users/sabri/Desktop/Mask-recognize/true'
@@ -64,8 +64,8 @@ while(True):
     top_inds = pred.argsort()[::-1][:5]
     for i in top_inds:
             # print('    {:.3f}  {}'.format(pred[i], cls_list[i]))
-            text='    {:.3f}  {}'.format(pred[i], cls_list[i])
-            cv2.putText(frame, text, (10, 40*(i+1)), cv2.FONT_HERSHEY_SIMPLEX,1, (0, 255, 255), 1, cv2.LINE_AA)
+            text='{:.3f}  {}'.format(pred[1], cls_list[1])
+            cv2.putText(frame, text, (10, 55), cv2.FONT_HERSHEY_SIMPLEX,2, (0, 0, 255), 3, cv2.LINE_AA)
             cv2.imshow('frame', frame)
 	
     #   count=count+1
