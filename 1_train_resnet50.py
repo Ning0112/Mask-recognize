@@ -14,7 +14,8 @@ DATASET_PATH  = 'sample'
 IMAGE_SIZE = (224, 224)
 
 # 影像類別數
-NUM_CLASSES = 2
+#NUM_CLASSES = 2
+NUM_CLASSES = 3
 
 # 若 GPU 記憶體不足，可調降 batch size 或凍結更多層網路
 BATCH_SIZE = 8
