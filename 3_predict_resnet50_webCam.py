@@ -12,11 +12,12 @@ cap = cv2.VideoCapture(0)
 # files = sys.argv[1:]
 
 net = load_model('model-resnet50-final.h5')
-cls_list = ['false', 'true']
+cls_list = ['false', 'true', 'other'] #新增其他
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 path1='C:/Users/sabri/Desktop/Mask-recognize/true'
 path2='C:/Users/sabri/Desktop/Mask-recognize/false'
+path3='C:/Users/sabri/Desktop/Mask-recognize/other' #新增其他
 duration=300
 freq=400
 
@@ -45,6 +46,12 @@ while(True):
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis = 0)
     pred = net.predict(x)[0]
+    if pred[2] > 0.90:
+        theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        f2=theTime2+'.jpg'
+        cv2.imwrite(os.path.join(path3,f2), frame)
+        #winsound.Beep(freq, duration)
+        
     if pred[1] > 0.90:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
@@ -63,9 +70,9 @@ while(True):
     
     top_inds = pred.argsort()[::-1][:5]
     for i in top_inds:
-            # print('    {:.3f}  {}'.format(pred[i], cls_list[i]))
-            text='{:.3f}  {}'.format(pred[1], cls_list[1])
-            cv2.putText(frame, text, (10, 55), cv2.FONT_HERSHEY_SIMPLEX,2, (0, 0, 255), 3, cv2.LINE_AA)
+            #print('    {:.3f}  {}'.format(pred[i], cls_list[i]))
+            text='{:.3f}  {}'.format(pred[i], cls_list[i])
+            cv2.putText(frame, text, (10, 55*(i+1)), cv2.FONT_HERSHEY_SIMPLEX,2, (0, 0, 255), 3, cv2.LINE_AA)
             cv2.imshow('frame', frame)
 	
     #   count=count+1
