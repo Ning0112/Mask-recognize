@@ -12,12 +12,12 @@ cap = cv2.VideoCapture(0)
 # files = sys.argv[1:]
 
 net = load_model('model-resnet50-final.h5')
-cls_list = ['false', 'true', 'other'] #新增其他
+cls_list = ['false', 'other', 'true'] #新增其他
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-path1='C:/Users/sabri/Desktop/Mask-recognize/true'
-path2='C:/Users/sabri/Desktop/Mask-recognize/false'
-path3='C:/Users/sabri/Desktop/Mask-recognize/other' #新增其他
+path0='C:/Users/sabri/Desktop/Mask-recognize/false'
+path1='C:/Users/sabri/Desktop/Mask-recognize/other'
+path2='C:/Users/sabri/Desktop/Mask-recognize/true' #新增其他
 duration=300
 freq=400
 
@@ -49,7 +49,7 @@ while(True):
     if pred[2] > 0.90:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
-        cv2.imwrite(os.path.join(path3,f2), frame)
+        cv2.imwrite(os.path.join(path2,f2), frame)
         #winsound.Beep(freq, duration)
         
     if pred[1] > 0.90:
@@ -61,7 +61,7 @@ while(True):
     if pred[0] > 0.90:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
-        cv2.imwrite(os.path.join(path2,f2), frame)
+        cv2.imwrite(os.path.join(path0,f2), frame)
         #winsound.Beep(freq, duration)
     #img = image.load_img(f, target_size=(224, 224))
     
