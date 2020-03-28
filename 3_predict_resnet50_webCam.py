@@ -5,8 +5,11 @@ import sys
 import numpy as np
 import cv2
 from datetime import datetime
-import winsound
+#import winsound
 import os
+from playsound import playsound
+from threading import Thread
+import time
 
 cap = cv2.VideoCapture(0)
 # files = sys.argv[1:]
@@ -18,8 +21,10 @@ theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 path0='C:/Users/sabri/Desktop/Mask-recognize/false'
 path1='C:/Users/sabri/Desktop/Mask-recognize/other'
 path2='C:/Users/sabri/Desktop/Mask-recognize/true' #新增其他
-duration=300
-freq=400
+#duration=300
+#freq=400
+
+PlaySoundFlag = 0
 
 while(True):
     ret, frame = cap.read()
@@ -28,6 +33,11 @@ while(True):
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
     
+    def play_music():
+        playsound('C:/Users/sabri/Desktop/Mask-recognize/mask.mp3')
+        #time.sleep(5)
+        #return 1
+    music_thread=Thread(target=play_music)
     # count=count+1
     #if count%30 == 0:
     f=theTime+'.jpg'
@@ -35,9 +45,7 @@ while(True):
         #winsound.Beep(freq, duration)
     #else:
     #    continue
-
     
-
     img = image.load_img(f, target_size=(224, 224))
 
     if img is None:
@@ -51,17 +59,26 @@ while(True):
         f2=theTime2+'.jpg'
         cv2.imwrite(os.path.join(path2,f2), frame)
         #winsound.Beep(freq, duration)
+        #playsound.playsound('C:/Users/sabri/Desktop/Mask-recognize/mask.mp3')
         
     if pred[1] > 0.90:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
         cv2.imwrite(os.path.join(path1,f2), frame)
-        #winsound.Beep(freq, duration)
-    
     if pred[0] > 0.90:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
         cv2.imwrite(os.path.join(path0,f2), frame)
+        if PlaySoundFlag == 1:
+        #   if music_thread.is_alive():
+            count+=1
+            if(count==5):
+                #print("hello")
+                PlaySoundFlag = 0
+        else:
+            music_thread.start()
+            PlaySoundFlag = 1
+            count=0
         #winsound.Beep(freq, duration)
     #img = image.load_img(f, target_size=(224, 224))
     
