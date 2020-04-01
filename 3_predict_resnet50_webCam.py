@@ -18,9 +18,10 @@ net = load_model('model-resnet50-final.h5')
 cls_list = ['false', 'other', 'true'] #新增其他
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-path0='C:/Users/sabri/Desktop/Mask-recognize/false'
-path1='C:/Users/sabri/Desktop/Mask-recognize/other'
-path2='C:/Users/sabri/Desktop/Mask-recognize/true' #新增其他
+Savepath=os.getcwd()
+#path0='C:/Users/sabri/Desktop/Mask-recognize/false'
+#path1='C:/Users/sabri/Desktop/Mask-recognize/other'
+#path2='C:/Users/sabri/Desktop/Mask-recognize/true' #新增其他
 #duration=300
 #freq=400
 
@@ -34,7 +35,8 @@ while(True):
         break
     
     def play_music():
-        playsound('C:/Users/sabri/Desktop/Mask-recognize/mask.mp3')
+        #playsound('C:/Users/sabri/Desktop/Mask-recognize/mask.mp3')
+        playsound(os.path.join(Savepath,'mask.mp3'))
         #time.sleep(5)
         #return 1
     music_thread=Thread(target=play_music)
@@ -54,21 +56,18 @@ while(True):
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis = 0)
     pred = net.predict(x)[0]
-    if pred[2] > 0.90:
+    if pred[2] > 0.95:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
-        cv2.imwrite(os.path.join(path2,f2), frame)
-        #winsound.Beep(freq, duration)
-        #playsound.playsound('C:/Users/sabri/Desktop/Mask-recognize/mask.mp3')
-        
-    if pred[1] > 0.90:
+        cv2.imwrite(os.path.join(Savepath,'true',f2), frame)
+    if pred[1] > 0.95:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
-        cv2.imwrite(os.path.join(path1,f2), frame)
-    if pred[0] > 0.90:
+        cv2.imwrite(os.path.join(Savepath,'other',f2), frame)
+    if pred[0] > 0.95:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         f2=theTime2+'.jpg'
-        cv2.imwrite(os.path.join(path0,f2), frame)
+        cv2.imwrite(os.path.join(Savepath,'false',f2), frame)
         if PlaySoundFlag == 1:
         #   if music_thread.is_alive():
             count+=1
@@ -91,7 +90,6 @@ while(True):
             text='{:.3f}  {}'.format(pred[i], cls_list[i])
             cv2.putText(frame, text, (10, 55*(i+1)), cv2.FONT_HERSHEY_SIMPLEX,2, (0, 0, 255), 3, cv2.LINE_AA)
             cv2.imshow('frame', frame)
-	
     #   count=count+1
     #   if count%30 == 0:
     #     cv2.imwrite(str(count)+'.jpg', frame)
