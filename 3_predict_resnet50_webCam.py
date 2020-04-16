@@ -89,6 +89,7 @@ while(True):
             #print('    {:.3f}  {}'.format(pred[i], cls_list[i]))
             text='{:.3f}  {}'.format(pred[i], cls_list[i])
             cv2.putText(frame, text, (10, 55*(i+1)), cv2.FONT_HERSHEY_SIMPLEX,2, (0, 0, 255), 3, cv2.LINE_AA)
+            cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
             cv2.imshow('frame', frame)
     #   count=count+1
     #   if count%30 == 0:
