@@ -11,14 +11,18 @@ from playsound import playsound
 from threading import Thread
 import time
 
-cap = cv2.VideoCapture(0)
+Savepath=os.getcwd()
+f=open(Savepath+'\\videonumber.txt')
+textV=f.readline()
+cap = cv2.VideoCapture(int(textV))
+f.close()
 # files = sys.argv[1:]
 
 net = load_model('model-resnet50-final.h5')
 cls_list = ['false', 'other', 'true'] #新增其他
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-Savepath=os.getcwd()
+
 #path0='C:/Users/sabri/Desktop/Mask-recognize/false'
 #path1='C:/Users/sabri/Desktop/Mask-recognize/other'
 #path2='C:/Users/sabri/Desktop/Mask-recognize/true' #新增其他
