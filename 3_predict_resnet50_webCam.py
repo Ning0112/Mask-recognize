@@ -23,6 +23,7 @@ cls_list = ['false', 'other', 'true'] #新增其他
 count=30
 theTime=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
+
 #path0='C:/Users/sabri/Desktop/Mask-recognize/false'
 #path1='C:/Users/sabri/Desktop/Mask-recognize/other'
 #path2='C:/Users/sabri/Desktop/Mask-recognize/true' #新增其他
@@ -62,16 +63,20 @@ while(True):
     pred = net.predict(x)[0]
     if pred[2] > 0.95:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        f2=theTime2+'.jpg'
+        percent = str(pred[2]);
+        f2=theTime2+'-'+percent+'%'+'.jpg';
         cv2.imwrite(os.path.join(Savepath,'true',f2), frame)
     if pred[1] > 0.95:
-        theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        f2=theTime2+'.jpg'
+        theTime2=datetime.now().strftime("%Y-%m-%d %H-%M")
+        percent = str(pred[1]);
+        f2=theTime2+'-'+percent+'%'+'.jpg';
         cv2.imwrite(os.path.join(Savepath,'other',f2), frame)
     if pred[0] > 0.95:
         theTime2=datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-        f2=theTime2+'.jpg'
+        percent = str(pred[0]);
+        f2=theTime2+'-'+percent+'%'+'.jpg';
         cv2.imwrite(os.path.join(Savepath,'false',f2), frame)
+        
         if PlaySoundFlag == 1:
         #   if music_thread.is_alive():
             count+=1
